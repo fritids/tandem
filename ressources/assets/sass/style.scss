@@ -1,0 +1,13 @@
+@import"../../../bower_components/breakpoint-sass/stylesheets/breakpoint";
+@import "param/params-color";
+@import "param/params-typo";
+@import "param/params-icons";
+
+*{
+  padding: 0;
+  margin: 0;
+  font-weight: 400;
+  color : $text-dark;
+}
+
+//@import"partial/example";

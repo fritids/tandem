@@ -1,0 +1,11 @@
+{
+  "name": "tandem",
+  "version": "1.0.0",
+  "description": "Dependancies of the project : gulp",
+  "main": "index.js",
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.8.11"
+  }
+}
