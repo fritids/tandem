@@ -1,0 +1,139 @@
+<input name="post_name" type="text" size="40" id="post_name" value="{{ post_name }}" placeholder="Nom">
+<input name="subtitle" type="text" size="60" id="subtitle" value="{{ subtitle }}" placeholder="Sous-titre">
+<div>
+    <input name="post_punchline" type="text" size="120" id="post_punchline" value="{{ post_punchline }}"
+           placeholder="Insérez une citation">
+    <label for="post_color">Equipe</label>
+    <select name="post_color" id="post_color">
+        <option value="1"{{ post_color == 1 ? " selected" : "" }}>Maitrise</option>
+        <option value="2"{{ post_color == 2 ? " selected" : "" }}>Puissance</option>
+        <option value="3"{{ post_color == 3 ? " selected" : "" }}>Agilité</option>
+        <option value="4"{{ post_color == 4 ? " selected" : "" }}>Créativité</option>
+    </select>
+</div>
+<table style="width: 100%">
+
+    <tr>
+        <td style="padding: 20px; width: 50%" >
+          <span class="button button-primary button-large media-upload"
+                data-format="image" data-target="post_media_cover" data-preview="post_media_cover_preview">
+                    <span class="dashicons-admin-media  dashicons-before"></span> Ajouter une image
+                </span>
+            <p></p>
+                <span class="button button-large media-remove"
+                      data-format="image" data-target="post_media_cover" data-preview="post_media_cover_preview">
+                    <span class="dashicons-trash  dashicons-before"></span> Retirer une image
+                </span>
+        </td>
+        <td  style="padding: 20px; width: 50%" >
+            <span>Miniature</span>
+            <input type="hidden" name="post_media_cover" data-attribute="url" id="post_media_cover" value="{{ post_image }}">
+
+            <div id="post_media_cover_preview" style="text-align: center ; display: {{ post_image ? "block" : "none" }}">
+                <div>
+                    <img src="{{ post_image }}" width="200px">
+                </div>
+            </div>
+        </td>
+
+    </tr>
+
+    <tr>
+        <td style="padding: 20px; width: 50%" >
+          <span class="button button-primary button-large media-upload"
+                data-format="image" data-target="post_media_profile" data-preview="post_media_profile_preview">
+                    <span class="dashicons-admin-media  dashicons-before"></span> Ajouter une image
+                </span>
+            <p></p>
+                <span class="button button-large media-remove"
+                      data-format="image" data-target="post_media_profile" data-preview="post_media_profile_preview">
+                    <span class="dashicons-trash  dashicons-before"></span> Retirer une image
+                </span>
+        </td>
+        <td  style="padding: 20px; width: 50%" >
+            <span>Image profile</span>
+            <input type="hidden" name="post_media_profile" data-attribute="url" id="post_media_profile" value="{{ post_profile }}">
+
+            <div id="post_media_profile_preview" style="text-align: center ; display: {{ post_profile ? "block" : "none" }}">
+                <div>
+                    <img src="{{ post_profile }}" width="200px">
+                </div>
+            </div>
+        </td>
+
+    </tr>
+
+</table>
+<script>
+    function showMediaSelection(param) {
+        param = typeof param == "undefined" ? {} : param;
+        var file_frame = wp.media.frames.file_frame = wp.media({
+            title: 'Importer un média',
+            button: {
+                text: 'Importer'
+            },
+            library: {
+                type: typeof param.format != "undefined" ?
+                        param.format : 'image'
+            },
+            multiple: typeof param.multiSelect != "undefined" ?
+                    param.multiSelect : false
+        });
+
+        file_frame.on("select", function () {
+            var first = file_frame.state().get('selection').toArray();
+            param.callback(first);
+        });
+
+        file_frame.open();
+    }
+
+    jQuery(document).ready(function () {
+
+        var media_uploader = jQuery(".media-upload");
+        var media_remove = jQuery(".media-remove");
+
+        media_uploader.click(function () {
+            var $format = jQuery(this).data("format");
+            var $target = jQuery("#" + jQuery(this).data("target"));
+            var $preview = jQuery("#" + jQuery(this).data("preview"));
+            showMediaSelection({
+                format: $format,
+                callback: function (data) {
+                    for (var attr in data){
+                        var entry = data[attr];
+                        $target.val(entry.attributes[$target.data("attribute")]);
+
+                        $preview.css("display" ,"block");
+                        console.log(entry);
+                        console.log($target.val());
+                        var newprev = jQuery($preview.html());
+                        $preview.html("");
+
+                        newprev.find("img,source").attr("src",entry.attributes.url);
+
+                        newprev.find("source").attr("type",entry.attributes.mime);
+                        newprev.find(".title").html(entry.attributes.title);
+
+                        newprev.appendTo($preview);
+
+                    }
+                }
+            });
+
+        });
+
+        media_remove.click(function(){
+            var $format = jQuery(this).data("format");
+            var $target = jQuery("#" + jQuery(this).data("target"));
+            var $preview = jQuery("#" + jQuery(this).data("preview"));
+
+            $target.val("");
+            $preview.css("display" ,"none");
+            var newprev = jQuery($preview.html());
+            $preview.html("");
+            newprev.appendTo($preview);
+        })
+
+    });
+</script>
