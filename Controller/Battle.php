@@ -36,16 +36,27 @@ class Battle {
     {
         /** @var \Model\Battle $battle_model */
         $battle_model = \Services\SingletonFactory::getInstance('\Model\Battle');
+        /** @var \Model\DancersModel $dancers_model */
+        $dancers_model = \Services\SingletonFactory::getInstance('\Model\DancersModel');
 
         global $twig, $post;
 
-        
+
 
         //Format dancer datas
         echo $twig->render('admin/battle-metabox.twig',
             [
-                "battle" =>,
-                "vote" =>
+                "dancerslist" => $dancers_model->getAll(),
+
+                "battle" => [
+                    21,
+                    20
+                ],
+                "vote" => [
+                    21 => 5,
+                    20 => 12
+                ],
+                "ended" => false
             ]
         );
 

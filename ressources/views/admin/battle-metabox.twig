@@ -1,0 +1,5 @@
+<select>
+    {% for dancer in dancerslist %}
+        <option value="{{ dancer.id|e }}">{{ dancer.post_name|e }}</option>
+    {% endfor %}
+</select>
