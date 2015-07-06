@@ -11,10 +11,10 @@
   "autoload": {
     "psr-4": {
       "Root\\": "./",
-      "Root\\Interfaces\\": "Interfaces/",
-      "Root\\Services\\": "Services/",
-      "Root\\Controller\\": "Controller/",
-      "Root\\Model\\": "Model/"
+      "Interfaces\\": "Interfaces/",
+      "Services\\": "Services/",
+      "Controller\\": "Controller/",
+      "Model\\": "Model/"
     }
   }
 }
